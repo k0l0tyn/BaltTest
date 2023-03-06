@@ -63,7 +63,7 @@ public class DataBase {
 	}
 
 	public ArrayList<ArrayList<Line>> getGroups() {
-		System.out.println("Начато формирование списка");
+		System.out.println("РќР°С‡Р°С‚Рѕ С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ РіСЂСѓРїРї");
 		ArrayList<ArrayList<Line>> buf = new ArrayList<ArrayList<Line>>();
 		for (Group group : groupsPool.values()) {
 			group.removeEquals();

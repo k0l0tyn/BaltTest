@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class Main {
 	private static final String DATA_PATH = "src/main/resources/InputData.txt";
-	private static final int BUFFER_SIZE = 1024*32;
+	private static final int BUFFER_SIZE = 1024 * 8;
 
 	public static void main(String[] args) {
 		if (args.length < 1) {
@@ -28,7 +28,10 @@ public class Main {
 			int bytesRead;
 			while ((bytesRead = in.read(dataBuffer)) != -1) {
 				read += BUFFER_SIZE;// Delete
-				buf += new String(dataBuffer);
+				buf += new String(dataBuffer, 0, bytesRead);
+				if (buf.charAt(buf.length() - 1) == '\n') {
+					buf += '\n';
+				}
 				String[] lines = buf.split("\n");
 				buf = lines[lines.length - 1];
 				for (int i = 0; i < lines.length - 1; i++) {
@@ -40,11 +43,11 @@ public class Main {
 				System.out.println("Read: " + (float) (read / 83136404.0) * 100 + "%");
 			}
 			ArrayList<ArrayList<Line>> groups = pool.getGroups();
-			out.write(("Получившиееся число групп с более чем одним элементом - " + groups.size() + "\n").getBytes());
-			out.write(("Время работы составило: " + (double) (System.currentTimeMillis() - timestamp) / 1000
-					+ " секунд\n").getBytes());
+			out.write(("РџРѕР»СѓС‡РёРІС€РёРµРµСЃСЏ С‡РёСЃР»Рѕ РіСЂСѓРїРї СЃ Р±РѕР»РµРµ С‡РµРј РѕРґРЅРёРј СЌР»РµРјРµРЅС‚РѕРј - " + groups.size() + "\n").getBytes());
+			out.write(("Р’СЂРµРјСЏ СЂР°Р±РѕС‚С‹ СЃРѕСЃС‚Р°РІРёР»Рѕ: " + (double) (System.currentTimeMillis() - timestamp) / 1000
+					+ " СЃРµРєСѓРЅРґ\n").getBytes());
 			for (int i = 0; i < groups.size(); i++) {
-				out.write(("Группа " + (i + 1) + "\n\n").getBytes());
+				out.write(("Р“СЂСѓРїРїР° " + (i + 1) + "\n\n").getBytes());
 				for (Line line : groups.get(i)) {
 					out.write((line.getString() + "\n\n").getBytes());
 				}
@@ -53,7 +56,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		System.out.println(
-				"Время работы составило:" + (double) (System.currentTimeMillis() - timestamp) / 1000 + " секунд");
+				"Р’СЂРµРјСЏ СЂР°Р±РѕС‚С‹ СЃРѕСЃС‚Р°РІРёР»Рѕ:" + (double) (System.currentTimeMillis() - timestamp) / 1000 + " СЃРµРєСѓРЅРґ");
 	}
 
 	private static Line parseLine(String s) {
@@ -62,7 +65,7 @@ public class Main {
 		for (int i = 0; i < units.length; i++) {
 			if (units[i].length() > 1) {
 				String buf = units[i].substring(1, units[i].length() - 1);
-				if (!Pattern.matches("^\\d", buf)) {
+				if (Pattern.matches("\\d*", buf)) {
 					line.add(buf);
 				} else {
 					line.clear();
