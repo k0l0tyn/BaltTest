@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class Main {
 	private static final String DATA_PATH = "src/main/resources/InputData.txt";
-	private static final int BUFFER_SIZE = 1024 * 8;
+	private static final int BUFFER_SIZE = 1024 * 32;
 
 	public static void main(String[] args) {
 		if (args.length < 1) {
@@ -29,10 +29,7 @@ public class Main {
 			while ((bytesRead = in.read(dataBuffer)) != -1) {
 				read += BUFFER_SIZE;// Delete
 				buf += new String(dataBuffer, 0, bytesRead);
-				if (buf.charAt(buf.length() - 1) == '\n') {
-					buf += '\n';
-				}
-				String[] lines = buf.split("\n");
+				String[] lines = buf.split("\n", -1);
 				buf = lines[lines.length - 1];
 				for (int i = 0; i < lines.length - 1; i++) {
 					Line line = parseLine(lines[i]);
